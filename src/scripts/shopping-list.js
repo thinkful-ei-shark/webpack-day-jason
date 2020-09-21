@@ -1,5 +1,6 @@
-import store from './store.js';
-import item from './item.js';
+import $ from 'jquery';
+import store from './store';
+import item from './item';
 
 const generateItemElement = function (item) {
   let itemTitle = `<span class="shopping-item shopping-item__checked">${item.name}</span>`;
@@ -34,7 +35,7 @@ const render = function () {
   // Filter item list if store prop is true by item.checked === false
   let items = [...store.items];
   if (store.hideCheckedItems) {
-    items = items.filter(item => !item.checked);
+    items = items.filter((item) => !item.checked);
   }
 
   // render the shopping list in the DOM
@@ -55,7 +56,7 @@ const handleNewItemSubmit = function () {
 };
 
 const handleItemCheckClicked = function () {
-  $('.js-shopping-list').on('click', '.js-item-toggle', event => {
+  $('.js-shopping-list').on('click', '.js-item-toggle', (event) => {
     const id = getItemIdFromElement(event.currentTarget);
     store.findAndToggleChecked(id);
     render();
@@ -63,14 +64,12 @@ const handleItemCheckClicked = function () {
 };
 
 const getItemIdFromElement = function (item) {
-  return $(item)
-    .closest('.js-item-element')
-    .data('item-id');
+  return $(item).closest('.js-item-element').data('item-id');
 };
 
 const handleDeleteItemClicked = function () {
   // like in `handleItemCheckClicked`, we use event delegation
-  $('.js-shopping-list').on('click', '.js-item-delete', event => {
+  $('.js-shopping-list').on('click', '.js-item-delete', (event) => {
     // get the index of the item in store.items
     const id = getItemIdFromElement(event.currentTarget);
     // delete the item
@@ -81,7 +80,7 @@ const handleDeleteItemClicked = function () {
 };
 
 const handleEditShoppingItemSubmit = function () {
-  $('.js-shopping-list').on('submit', '.js-edit-item', event => {
+  $('.js-shopping-list').on('submit', '.js-edit-item', (event) => {
     event.preventDefault();
     const id = getItemIdFromElement(event.currentTarget);
     const itemName = $(event.currentTarget).find('.shopping-item').val();
@@ -108,5 +107,5 @@ const bindEventListeners = function () {
 // This object contains the only exposed methods from this module:
 export default {
   render,
-  bindEventListeners
+  bindEventListeners,
 };
